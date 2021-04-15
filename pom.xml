@@ -12,7 +12,7 @@
     <artifactId>restful-web-services</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>restful-web-services</name>
-    <description>REST MVC Course with Sergei Kopalov</description>
+    <description>REST MVC Course with Sergei Kargopalov</description>
     <properties>
         <java.version>11</java.version>
     </properties>
