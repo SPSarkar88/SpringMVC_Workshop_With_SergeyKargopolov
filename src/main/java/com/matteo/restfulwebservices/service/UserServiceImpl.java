@@ -1,11 +1,13 @@
 package com.matteo.restfulwebservices.service;
 
+import com.matteo.restfulwebservices.dto.AddressDto;
 import com.matteo.restfulwebservices.dto.UserDto;
 import com.matteo.restfulwebservices.entity.UserEntity;
 import com.matteo.restfulwebservices.exception.UserServiceException;
 import com.matteo.restfulwebservices.model.response.ErrorMessages;
 import com.matteo.restfulwebservices.repository.UserRepository;
 import com.matteo.restfulwebservices.utils.Utils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,8 +38,18 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserDto createUser(UserDto user) {
 
-    UserEntity userEntity = new UserEntity();
-    BeanUtils.copyProperties(user, userEntity);
+    Optional<UserEntity> maybeUserCheck = userRepository.findUserEntityByEmail(user.getEmail());
+    if (maybeUserCheck.isPresent()) {
+      throw new UserServiceException("This user already exists");
+    }
+
+    user.getAddresses().forEach(address -> {
+      address.setUserDetails(user);
+      address.setAddressId(utils.generateAddressId(30));
+    });
+
+    ModelMapper mapper = new ModelMapper();
+    UserEntity userEntity = mapper.map(user, UserEntity.class);
 
     String userId = utils.generateUserId(30);
     userEntity.setUserId(userId);
@@ -45,10 +57,7 @@ public class UserServiceImpl implements UserService {
 
     UserEntity savedUser = userRepository.save(userEntity);
 
-    UserDto returnValue = new UserDto();
-    BeanUtils.copyProperties(savedUser, returnValue);
-
-    return returnValue;
+    return mapper.map(savedUser, UserDto.class);
   }
 
   @Override
@@ -124,4 +133,5 @@ public class UserServiceImpl implements UserService {
 
     return new User(userActual.getEmail(), userActual.getEncryptedPassword(), new ArrayList<>());
   }
+
 }

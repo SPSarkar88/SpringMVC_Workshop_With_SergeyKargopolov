@@ -12,7 +12,7 @@
     <artifactId>restful-web-services</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>restful-web-services</name>
-    <packaging>war</packaging> <!--CHANGE BACK TO JAR-->
+    <packaging>jar</packaging> <!--CHANGE BACK TO JAR-->
     <description>REST MVC Course with Sergei Kargopalov</description>
     <properties>
         <java.version>11</java.version>
@@ -69,10 +69,15 @@
             <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
 
-        <!--Related to the section on deploying war files to tomcat-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.3.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.4.0</version>
         </dependency>
 
     </dependencies>

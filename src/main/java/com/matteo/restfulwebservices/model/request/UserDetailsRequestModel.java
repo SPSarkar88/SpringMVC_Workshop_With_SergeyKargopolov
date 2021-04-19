@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,11 +28,19 @@ public class UserDetailsRequestModel {
   @Size(min = 8, max = 16)
   private String password;
 
-  public UserDetailsRequestModel(String firstName, String lastName, String email, String password) {
+  private List<AddressRequestModel> addresses;
+
+  public UserDetailsRequestModel(
+      String firstName,
+      String lastName,
+      String email,
+      String password,
+      List<AddressRequestModel> addresses) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.password = password;
+    this.addresses = addresses;
   }
 
   public UserDetailsRequestModel() {}
